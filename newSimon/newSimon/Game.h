@@ -51,6 +51,7 @@ private:
 	void resetButtons();
 	void processGameEvents(sf::Event& t_event);
 	void randomiseNotes();
+	void countdownTimers();
 
 
 	sf::RenderWindow m_window; // main SFML window
@@ -104,6 +105,17 @@ private:
 	// sound for yellow
 	sf::Sound m_yellowTone;
 
+
+	// time till blue button returns to normal color
+	int m_blueTimer;
+	// time till red button returns to normal color
+	int m_redTimer;
+	// time till green button returns to normal color
+	int m_greenTimer;
+	// time till yellow button returns to normal color
+	int m_yellowTimer;
+	// current time delay for buttons to return to normal color
+	int m_flashTime;
 };
 
 #endif // !GAME_HPP

@@ -23,6 +23,7 @@ Game::Game() :
 	m_buttonBlue{ sf::Vector2f{200.0f,200.0f} },
 	m_buttonYellow{ sf::Vector2f{200.0f,200.0f} },
 	m_currentGameMode{ GameMode::Starting },
+	m_flashTime(15),
 	m_exitGame{false} //when true game will exit
 
 {
@@ -126,6 +127,7 @@ void Game::update(sf::Time t_deltaTime)
 	}
 	// reset the booleans after update before next process events call
 	resetButtons();
+	countdownTimers();
 }
 
 /// <summary>
@@ -145,6 +147,11 @@ void Game::startingUpdate()
 	}
 	if (m_greenButtonPressed)
 	{
+		// test location of square flash
+		m_greenTone.play();
+		m_greenTimer = m_flashTime;
+		m_buttonGreen.setFillColor(m_buttonGreen.getFillColor() + sf::Color(64, 64, 64, 255));
+
 		randomiseNotes();	
 		m_difficultyLevel = 8;	
 		m_currentCount = 1;
@@ -152,6 +159,12 @@ void Game::startingUpdate()
 	}
 	if (m_redButtonPressed)
 	{
+		// test location of square flash
+		m_redTone.play();
+		m_redTimer = m_flashTime;
+		m_buttonRed.setFillColor(m_buttonRed.getFillColor() + sf::Color(64, 64, 64, 255));
+
+
 		randomiseNotes();
 		m_currentCount = 1;
 		m_currentNote = 0;
@@ -208,7 +221,7 @@ void Game::setupButtons()
 	m_blueTone.setBuffer(m_toneBuffer);
 	m_redTone.setBuffer(m_toneBuffer);
 	m_redTone.setPitch(0.85f);
-	m_redTone.play();
+	
 	m_yellowTone.setBuffer(m_toneBuffer);
 	m_yellowTone.setPitch(0.7f);
 	m_greenTone.setBuffer(m_toneBuffer);
@@ -336,5 +349,40 @@ void Game::randomiseNotes()
 	{
 		// looking for values of 0,1,2,3
 		m_noteSequence[i] = std::rand() % 4;
+	}
+}
+
+/// <summary>
+/// decrement each colours timer and then reset the colour on the button
+/// </summary>
+void Game::countdownTimers()
+{
+	if (m_blueTimer > 0)
+	{
+		if (0 == --m_blueTimer)
+		{
+			m_buttonBlue.setFillColor(BLUE);
+		}
+	}
+	if (m_redTimer > 0)
+	{
+		if (0 == --m_redTimer)
+		{
+			m_buttonRed.setFillColor(RED);
+		}
+	}
+	if (m_yellowTimer > 0)
+	{
+		if (0 == --m_yellowTimer)
+		{
+			m_buttonYellow.setFillColor(YELLOW);
+		}
+	}
+	if (m_greenTimer > 0)
+	{
+		if (0 == --m_greenTimer)
+		{
+			m_buttonGreen.setFillColor(GREEN);
+		}
 	}
 }
