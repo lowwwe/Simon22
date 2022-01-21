@@ -52,6 +52,7 @@ private:
 	void processGameEvents(sf::Event& t_event);
 	void randomiseNotes();
 	void countdownTimers();
+	void showingUpdate();
 
 
 	sf::RenderWindow m_window; // main SFML window
@@ -116,6 +117,9 @@ private:
 	int m_yellowTimer;
 	// current time delay for buttons to return to normal color
 	int m_flashTime;
+
+	// delay between modes
+	int m_modeChangeTimer;
 };
 
 #endif // !GAME_HPP

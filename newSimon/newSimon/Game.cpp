@@ -24,6 +24,10 @@ Game::Game() :
 	m_buttonYellow{ sf::Vector2f{200.0f,200.0f} },
 	m_currentGameMode{ GameMode::Starting },
 	m_flashTime(15),
+	m_blueTimer(0),
+	m_redTimer(0),
+	m_yellowTimer(0),
+	m_greenTimer(0),
 	m_exitGame{false} //when true game will exit
 
 {
@@ -114,7 +118,7 @@ void Game::update(sf::Time t_deltaTime)
 		startingUpdate();
 		break;
 	case GameMode::Showing:
-		
+		showingUpdate();
 		break;
 	case GameMode::Recieving:
 		
@@ -127,7 +131,7 @@ void Game::update(sf::Time t_deltaTime)
 	}
 	// reset the booleans after update before next process events call
 	resetButtons();
-	countdownTimers();
+	// countdownTimers(); now being called from showingupdate
 }
 
 /// <summary>
@@ -147,39 +151,109 @@ void Game::startingUpdate()
 	}
 	if (m_greenButtonPressed)
 	{
-		// test location of square flash
-		m_greenTone.play();
-		m_greenTimer = m_flashTime;
-		m_buttonGreen.setFillColor(m_buttonGreen.getFillColor() + sf::Color(64, 64, 64, 255));
+	
 
 		randomiseNotes();	
 		m_difficultyLevel = 8;	
-		m_currentCount = 1;
+		m_currentCount = 8; // temp for playback test
 		m_currentNote = 0;
+		m_modeChangeTimer = 0;
+		m_currentGameMode = GameMode::Showing;
+		m_flashTime = 30;
 	}
 	if (m_redButtonPressed)
 	{
-		// test location of square flash
-		m_redTone.play();
-		m_redTimer = m_flashTime;
-		m_buttonRed.setFillColor(m_buttonRed.getFillColor() + sf::Color(64, 64, 64, 255));
 
 
 		randomiseNotes();
-		m_currentCount = 1;
+		m_currentCount = 16; // temp for playback test
 		m_currentNote = 0;
 		m_difficultyLevel = 16;
+		m_modeChangeTimer = 0;
+		m_currentGameMode = GameMode::Showing;
+		m_flashTime = 20; // test
 
 	}
 	if (m_yellowButtonPressed)
 	{
 		randomiseNotes();
-		m_currentCount = 1;
+		m_currentCount = 32; // temp
 		m_currentNote = 0;
 		m_difficultyLevel = 32;
+		m_modeChangeTimer = 0;
+		m_currentGameMode = GameMode::Showing;
+		m_flashTime = 15; // temp
 	}
 	
 }
+
+/// <summary>
+/// @brief update the display of notes.
+/// 
+/// wait for a delay initiall, give the human a break between modes
+/// then set the status text and if the previous note is finished (light gone out)
+/// may still be playing then switch on the next note
+/// green is 0
+/// red is 1
+/// yellow is 2
+/// blue is 3
+/// play the tone and highlight the button and set the timer
+/// /// </summary>
+void Game::showingUpdate()
+{
+	if (m_modeChangeTimer > 0)
+	{
+		m_modeChangeTimer--;
+	}
+	else
+	{
+		m_statusText.setString("Playing");
+		if (0 == m_blueTimer && 0 == m_greenTimer && 0 == m_redTimer && 0 == m_yellowTimer)
+		{
+			if (m_currentNote < m_currentCount)
+			{
+				switch (m_noteSequence[m_currentNote])
+				{
+				case 0:
+					m_greenTone.play();
+					m_greenTimer = m_flashTime;
+					m_buttonGreen.setFillColor(m_buttonGreen.getFillColor() + sf::Color(64, 64, 64, 255));
+					break;
+				case 1:
+					m_redTone.play();
+					m_redTimer = m_flashTime;
+					m_buttonRed.setFillColor(m_buttonRed.getFillColor() + sf::Color(64, 64, 64, 255));
+					break;
+				case 2:
+					m_yellowTone.play();
+					m_yellowTimer = m_flashTime;
+					m_buttonYellow.setFillColor(m_buttonYellow.getFillColor() + sf::Color(64, 64, 64, 255));
+					break;
+				case 3:
+					m_blueTone.play();
+					m_blueTimer = m_flashTime;
+					m_buttonBlue.setFillColor(m_buttonBlue.getFillColor() + sf::Color(64, 64, 64, 255));
+					break;
+				default:
+					break;
+				}
+				m_currentNote++;
+			}
+			else
+			{
+				// when all the notes have been played switch to listening mode
+				// and start back at the start of the sequence
+				m_currentGameMode = GameMode::Recieving;
+				m_currentNote = 0;
+			}
+		}
+	}
+	countdownTimers();
+}
+
+
+
+
 /// <summary>
 /// draw the frame and then switch buffers
 /// </summary>
