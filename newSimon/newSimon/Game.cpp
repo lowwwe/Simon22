@@ -110,7 +110,7 @@ void Game::update(sf::Time t_deltaTime)
 	switch (m_currentGameMode)
 	{
 	case GameMode::Starting:
-		
+		startingUpdate();
 		break;
 	case GameMode::Showing:
 		
@@ -124,14 +124,27 @@ void Game::update(sf::Time t_deltaTime)
 	default:
 		break;
 	}
-	if (m_exitGame)
-	{
-		m_window.close();
-	}
 	// reset the booleans after update before next process events call
 	resetButtons();
 }
 
+/// <summary>
+/// @brief update game from menu.
+/// 
+/// using the four colour buttons the user can select
+/// an easy,medium or hard game 8,16,32 notes
+/// or blue to exit the game
+/// 
+/// </summary>
+void Game::startingUpdate()
+{
+	m_statusText.setString("");
+	if (m_blueButtonPressed)
+	{
+		m_window.close();
+	}
+	
+}
 /// <summary>
 /// draw the frame and then switch buffers
 /// </summary>
