@@ -121,7 +121,7 @@ void Game::update(sf::Time t_deltaTime)
 		showingUpdate();
 		break;
 	case GameMode::Recieving:
-		
+		recievingUpdate(t_deltaTime);
 		break;
 	case GameMode::GameOver:
 		overUpdate();
@@ -160,10 +160,7 @@ void Game::startingUpdate()
 		m_modeChangeTimer = 0;
 		m_currentGameMode = GameMode::Showing;
 		m_flashTime = 30;
-		// test game over
-		m_win = true;
-		m_currentGameMode = GameMode::GameOver;
-		m_modeChangeTimer = 210;
+		
 	}
 	if (m_redButtonPressed)
 	{
@@ -176,10 +173,7 @@ void Game::startingUpdate()
 		m_modeChangeTimer = 0;
 		m_currentGameMode = GameMode::Showing;
 		m_flashTime = 30; 
-		// test game over
-		m_win = false;
-		m_currentGameMode = GameMode::GameOver;
-		m_modeChangeTimer = 120;
+		
 	}
 	if (m_yellowButtonPressed)
 	{
@@ -308,6 +302,112 @@ void Game::overUpdate()
 	countdownTimers();
 }
 
+
+
+/// <summary>
+/// @brief check button presses against current note and act.
+/// 
+/// use 2 bools to check for a correct or incorrect click (there nay be no click{most of the time})
+/// if correct move onto next note and check if finished
+/// if mistake then gameover and set win to false 
+/// </summary>
+/// <param name="time">delta update time</param>
+void Game::recievingUpdate(sf::Time time)
+{
+	bool correct = false;
+	bool mistake = false;
+
+	m_statusText.setString("Listening");
+	if (m_greenButtonPressed)
+	{
+		m_buttonGreen.setFillColor(m_buttonGreen.getFillColor() + sf::Color(64, 64, 64, 255));
+		m_greenTimer = m_flashTime;
+		m_greenTone.play();
+		if (GREEN_BUTTON == m_noteSequence[m_currentNote])
+		{
+			correct = true;
+		}
+		else
+		{
+			mistake = true;
+		}
+	}
+	if (m_redButtonPressed)
+	{
+		m_buttonRed.setFillColor(m_buttonRed.getFillColor() + sf::Color(64, 64, 64, 255));
+		m_redTimer = m_flashTime;
+		m_redTone.play();
+		if (RED_BUTTON == m_noteSequence[m_currentNote])
+		{
+			correct = true;
+		}
+		else
+		{
+			mistake = true;
+		}
+	}
+	if (m_yellowButtonPressed)
+	{
+		m_buttonYellow.setFillColor(m_buttonYellow.getFillColor() + sf::Color(64, 64, 64, 255));
+		m_yellowTimer = m_flashTime;
+		m_yellowTone.play();
+		if (YELLOW_BUTTON == m_noteSequence[m_currentNote])
+		{
+			correct = true;
+		}
+		else
+		{
+			mistake = true;
+		}
+	}
+	if (m_blueButtonPressed)
+	{
+		m_buttonBlue.setFillColor(m_buttonBlue.getFillColor() + sf::Color(64, 64, 64, 255));
+		m_blueTimer = m_flashTime;
+		m_blueTone.play();
+		if (BLUE_BUTTON == m_noteSequence[m_currentNote])
+		{
+			correct = true;
+		}
+		else
+		{
+			mistake = true;
+		}
+	}
+	if (correct)
+	{
+		m_currentNote++;		
+		if (m_currentNote == m_currentCount)
+		{
+			m_currentCount++;
+			m_currentNote = 0;
+			m_currentGameMode = GameMode::Showing;
+			m_modeChangeTimer = 60;
+			m_statusText.setString("...");
+			m_flashTime--;
+			if (m_flashTime < 10)
+			{
+				m_flashTime = 10;
+			}
+		}
+	}
+	if (mistake)
+	{
+		m_currentGameMode = GameMode::GameOver;
+		m_win = false;
+		m_modeChangeTimer = 120;
+	}
+	if (!correct && !mistake)
+	{
+		m_inputTime += time;		
+	}
+	else
+	{
+		m_inputTime = sf::seconds(0);
+	}
+	countdownTimers();
+
+}
 
 /// <summary>
 /// draw the frame and then switch buffers

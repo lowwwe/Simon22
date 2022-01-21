@@ -18,6 +18,15 @@ const sf::Color BLUE{ 0,0,180,255 };
 const sf::Color YELLOW{ 180,180,0,255 };
 const sf::Color WHITE{ 255,255,255,255 };
 
+
+
+const int GREEN_BUTTON = 0; // sequence stored as integers 0 means green
+const int RED_BUTTON = 1; // 1 means red
+const int YELLOW_BUTTON = 2; // 2 means yellow
+const int BLUE_BUTTON = 3; // 3 means blue
+
+
+
 /// <summary>
 /// the four different modes our game can be in.
 /// </summary>
@@ -45,7 +54,7 @@ private:
 	void processKeys(sf::Event t_event);
 	void update(sf::Time t_deltaTime);
 	void startingUpdate();
-	void recievingUpdate(sf::Time time);
+	void recievingUpdate(sf::Time time); // recieving
 	void overUpdate();
 	void render();
 	void setupButtons();
@@ -124,6 +133,8 @@ private:
 	int m_modeChangeTimer;
 	// win state for gameover
 	bool m_win;
+	// timer for turn taking
+	sf::Time m_inputTime;
 };
 
 #endif // !GAME_HPP
