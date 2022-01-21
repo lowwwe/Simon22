@@ -46,7 +46,7 @@ private:
 	void update(sf::Time t_deltaTime);
 	void startingUpdate();
 	void recievingUpdate(sf::Time time);
-
+	void overUpdate();
 	void render();
 	void setupButtons();
 	void setupFontAndText();
@@ -122,6 +122,8 @@ private:
 
 	// delay between modes
 	int m_modeChangeTimer;
+	// win state for gameover
+	bool m_win;
 };
 
 #endif // !GAME_HPP

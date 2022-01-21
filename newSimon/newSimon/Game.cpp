@@ -124,7 +124,7 @@ void Game::update(sf::Time t_deltaTime)
 		
 		break;
 	case GameMode::GameOver:
-		
+		overUpdate();
 		break;
 	default:
 		break;
@@ -152,7 +152,7 @@ void Game::startingUpdate()
 	if (m_greenButtonPressed)
 	{
 	
-
+	
 		randomiseNotes();	
 		m_difficultyLevel = 8;	
 		m_currentCount = 1; 
@@ -160,6 +160,10 @@ void Game::startingUpdate()
 		m_modeChangeTimer = 0;
 		m_currentGameMode = GameMode::Showing;
 		m_flashTime = 30;
+		// test game over
+		m_win = true;
+		m_currentGameMode = GameMode::GameOver;
+		m_modeChangeTimer = 210;
 	}
 	if (m_redButtonPressed)
 	{
@@ -172,7 +176,10 @@ void Game::startingUpdate()
 		m_modeChangeTimer = 0;
 		m_currentGameMode = GameMode::Showing;
 		m_flashTime = 30; 
-
+		// test game over
+		m_win = false;
+		m_currentGameMode = GameMode::GameOver;
+		m_modeChangeTimer = 120;
 	}
 	if (m_yellowButtonPressed)
 	{
@@ -251,7 +258,55 @@ void Game::showingUpdate()
 	countdownTimers();
 }
 
-
+/// <summary>
+/// @brief update game over.
+/// 
+/// run down countdowntimer and play tone for victory or defeat
+/// when finsihed switch mode to starting
+/// </summary>
+void Game::overUpdate()
+{
+	// play same tone for defeat and set status message
+	if (!m_win)
+	{
+		m_statusText.setString("Game Over you Lost");
+		if (m_modeChangeTimer-- > 0)
+		{
+			if (m_modeChangeTimer % 25 == 0)
+			{
+				m_greenTone.play();
+			}
+		}
+		else
+		{
+			m_currentGameMode = GameMode::Starting;
+		}
+	}
+	else
+	{
+		// play alternating tone and set status for victory
+		m_statusText.setString("Game Over you Won");
+		if (m_modeChangeTimer-- > 0)
+		{
+			if (m_modeChangeTimer % 50 == 0)
+			{
+				m_blueTone.play();
+			}
+			else
+			{
+				if (m_modeChangeTimer % 25 == 0)
+				{
+					m_redTone.play();
+				}
+			}
+		}
+		else
+		{
+			m_currentGameMode = GameMode::Starting;
+		}
+	}
+	countdownTimers();
+}
 
 
 /// <summary>
