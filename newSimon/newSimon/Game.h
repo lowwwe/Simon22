@@ -38,11 +38,15 @@ private:
 
 
 	sf::RenderWindow m_window; // main SFML window
-	sf::Font m_ArialBlackfont; // font used by message
+	sf::Font m_impactFont; // font used by game
 	sf::RectangleShape m_buttonRed;// red button
 	sf::RectangleShape m_buttonBlue;// blue button
 	sf::RectangleShape m_buttonGreen;// green button
 	sf::RectangleShape m_buttonYellow;// yellow button
+
+	// text for title
+	sf::Text m_titleText;
+
 	bool m_exitGame; // control exiting game
 
 };
