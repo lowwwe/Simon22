@@ -46,6 +46,16 @@ private:
 
 	// text for title
 	sf::Text m_titleText;
+	// text for blue instructions 
+	sf::Text m_instructionsTextBlue;
+	// text for red instructions 
+	sf::Text m_instructionsTextRed;
+	// text for Green instructions 
+	sf::Text m_instructionsTextGreen;
+	// text for yellow instructions 
+	sf::Text m_instructionsTextYellow;
+	// status text
+	sf::Text m_statusText;
 
 	bool m_exitGame; // control exiting game
 
