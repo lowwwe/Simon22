@@ -22,6 +22,7 @@ Game::Game() :
 	m_buttonGreen{ sf::Vector2f{200.0f,200.0f} },
 	m_buttonBlue{ sf::Vector2f{200.0f,200.0f} },
 	m_buttonYellow{ sf::Vector2f{200.0f,200.0f} },
+	m_currentGameMode{ GameMode::Starting },
 	m_exitGame{false} //when true game will exit
 
 {
@@ -104,6 +105,23 @@ void Game::processKeys(sf::Event t_event)
 /// <param name="t_deltaTime">time interval per frame</param>
 void Game::update(sf::Time t_deltaTime)
 {
+	switch (m_currentGameMode)
+	{
+	case GameMode::Starting:
+		
+		break;
+	case GameMode::Showing:
+		
+		break;
+	case GameMode::Recieving:
+		
+		break;
+	case GameMode::GameOver:
+		
+		break;
+	default:
+		break;
+	}
 	if (m_exitGame)
 	{
 		m_window.close();

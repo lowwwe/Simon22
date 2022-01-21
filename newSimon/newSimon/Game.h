@@ -17,6 +17,17 @@ const sf::Color BLUE{ 0,0,180,255 };
 const sf::Color YELLOW{ 180,180,0,255 };
 const sf::Color WHITE{ 255,255,255,255 };
 
+/// <summary>
+/// the four different modes our game can be in.
+/// </summary>
+enum class GameMode
+{
+	Showing,
+	Recieving,
+	GameOver,
+	Starting
+};
+
 class Game
 {
 public:
@@ -56,7 +67,8 @@ private:
 	sf::Text m_instructionsTextYellow;
 	// status text
 	sf::Text m_statusText;
-
+	// current mode the game is in
+	GameMode m_currentGameMode;
 	bool m_exitGame; // control exiting game
 
 };
