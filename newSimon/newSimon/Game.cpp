@@ -376,20 +376,30 @@ void Game::recievingUpdate(sf::Time time)
 	}
 	if (correct)
 	{
-		m_currentNote++;		
+		m_currentNote++;
 		if (m_currentNote == m_currentCount)
 		{
-			m_currentCount++;
-			m_currentNote = 0;
-			m_currentGameMode = GameMode::Showing;
-			m_modeChangeTimer = 60;
-			m_statusText.setString("...");
-			m_flashTime--;
-			if (m_flashTime < 10)
+			if (m_currentCount == m_difficultyLevel)
 			{
-				m_flashTime = 10;
+				m_currentGameMode = GameMode::GameOver;
+				m_win = true;
+				m_modeChangeTimer = 210;
+			}
+			else
+			{
+				m_currentCount++;
+				m_currentNote = 0;
+				m_currentGameMode = GameMode::Showing;
+				m_modeChangeTimer = 60;
+				m_statusText.setString("...");
+				m_flashTime--;
+				if (m_flashTime < 10)
+				{
+					m_flashTime = 10;
+				}
 			}
 		}
+
 	}
 	if (mistake)
 	{
@@ -399,7 +409,17 @@ void Game::recievingUpdate(sf::Time time)
 	}
 	if (!correct && !mistake)
 	{
-		m_inputTime += time;		
+		m_inputTime += time;
+		if (m_inputTime.asMilliseconds() > 1500)
+		{
+			// extra delay for the first note
+			if (m_inputTime.asMilliseconds() > 3000 || m_currentNote != 0)
+			{
+				m_currentGameMode = GameMode::GameOver;
+				m_win = false;
+				m_modeChangeTimer = 120;
+			}
+		}
 	}
 	else
 	{
@@ -408,6 +428,7 @@ void Game::recievingUpdate(sf::Time time)
 	countdownTimers();
 
 }
+
 
 /// <summary>
 /// draw the frame and then switch buffers
