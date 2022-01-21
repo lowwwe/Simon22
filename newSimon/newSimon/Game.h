@@ -10,6 +10,7 @@
 /// Don't forget the endif at the bottom
 /// </summary>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 const sf::Color RED{ 180,0,0,255 };
 const sf::Color GREEN{ 0,180,0,255 };
@@ -91,6 +92,18 @@ private:
 	int m_currentNote;
 	// current sequence lenght
 	int m_currentCount;
+
+	// sound buffer used to store tone wav
+	sf::SoundBuffer m_toneBuffer;
+	// sound for blue
+	sf::Sound m_blueTone;
+	// sound for red
+	sf::Sound m_redTone;
+	// sound for green
+	sf::Sound m_greenTone;
+	// sound for yellow
+	sf::Sound m_yellowTone;
+
 };
 
 #endif // !GAME_HPP

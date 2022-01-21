@@ -153,7 +153,6 @@ void Game::startingUpdate()
 	if (m_redButtonPressed)
 	{
 		randomiseNotes();
-		m_currentGameMode = GameMode::Showing;
 		m_currentCount = 1;
 		m_currentNote = 0;
 		m_difficultyLevel = 16;
@@ -162,7 +161,6 @@ void Game::startingUpdate()
 	if (m_yellowButtonPressed)
 	{
 		randomiseNotes();
-		m_currentGameMode = GameMode::Showing;
 		m_currentCount = 1;
 		m_currentNote = 0;
 		m_difficultyLevel = 32;
@@ -200,6 +198,21 @@ void Game::setupButtons()
 	m_buttonGreen.setPosition(sf::Vector2f(350, 30));
 	m_buttonGreen.setFillColor(GREEN);
 	m_buttonBlue.setPosition(sf::Vector2f(570, 250));
+
+
+	if (m_toneBuffer.loadFromFile("assets/audio/tone.wav"))
+	{
+		std::cout << "beep loaded ok" << std::endl;
+	}
+	// assign the buffer to sounds and change pitch
+	m_blueTone.setBuffer(m_toneBuffer);
+	m_redTone.setBuffer(m_toneBuffer);
+	m_redTone.setPitch(0.85f);
+	m_redTone.play();
+	m_yellowTone.setBuffer(m_toneBuffer);
+	m_yellowTone.setPitch(0.7f);
+	m_greenTone.setBuffer(m_toneBuffer);
+	m_greenTone.setPitch(0.55f);
 }
 
 /// <summary>
