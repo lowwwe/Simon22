@@ -143,6 +143,13 @@ void Game::startingUpdate()
 	{
 		m_window.close();
 	}
+	if (m_greenButtonPressed)
+	{
+		randomiseNotes();	
+		m_difficultyLevel = 8;	
+		m_currentCount = 1;
+		m_currentNote = 0;
+	}
 	
 }
 /// <summary>
@@ -286,5 +293,18 @@ void Game::processGameEvents(sf::Event& t_event)
 				m_blueButtonPressed = true;
 			}
 		}
+	}
+}
+
+
+/// <summary>
+/// @brief get a new sequence of notes.
+/// </summary>
+void Game::randomiseNotes()
+{
+	for (int i = 0; i < 32; i++)
+	{
+		// looking for values of 0,1,2,3
+		m_noteSequence[i] = std::rand() % 4;
 	}
 }

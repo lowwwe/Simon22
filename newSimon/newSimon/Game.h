@@ -49,6 +49,7 @@ private:
 	void setupFontAndText();
 	void resetButtons();
 	void processGameEvents(sf::Event& t_event);
+	void randomiseNotes();
 
 
 	sf::RenderWindow m_window; // main SFML window
@@ -82,7 +83,14 @@ private:
 	bool m_yellowButtonPressed;
 	// green buttone pressed
 	bool m_greenButtonPressed;
-
+	// array of notes
+	int m_noteSequence[32];
+	// difficulty target 8,16,32
+	int m_difficultyLevel;
+	// current note count
+	int m_currentNote;
+	// current sequence lenght
+	int m_currentCount;
 };
 
 #endif // !GAME_HPP
