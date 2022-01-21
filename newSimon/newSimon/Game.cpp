@@ -150,6 +150,23 @@ void Game::startingUpdate()
 		m_currentCount = 1;
 		m_currentNote = 0;
 	}
+	if (m_redButtonPressed)
+	{
+		randomiseNotes();
+		m_currentGameMode = GameMode::Showing;
+		m_currentCount = 1;
+		m_currentNote = 0;
+		m_difficultyLevel = 16;
+
+	}
+	if (m_yellowButtonPressed)
+	{
+		randomiseNotes();
+		m_currentGameMode = GameMode::Showing;
+		m_currentCount = 1;
+		m_currentNote = 0;
+		m_difficultyLevel = 32;
+	}
 	
 }
 /// <summary>
