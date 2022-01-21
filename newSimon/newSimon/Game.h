@@ -45,6 +45,8 @@ private:
 	void processKeys(sf::Event t_event);
 	void update(sf::Time t_deltaTime);
 	void startingUpdate();
+	void recievingUpdate(sf::Time time);
+
 	void render();
 	void setupButtons();
 	void setupFontAndText();

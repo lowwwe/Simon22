@@ -155,7 +155,7 @@ void Game::startingUpdate()
 
 		randomiseNotes();	
 		m_difficultyLevel = 8;	
-		m_currentCount = 8; // temp for playback test
+		m_currentCount = 1; 
 		m_currentNote = 0;
 		m_modeChangeTimer = 0;
 		m_currentGameMode = GameMode::Showing;
@@ -166,23 +166,23 @@ void Game::startingUpdate()
 
 
 		randomiseNotes();
-		m_currentCount = 16; // temp for playback test
+		m_currentCount = 1; 
 		m_currentNote = 0;
 		m_difficultyLevel = 16;
 		m_modeChangeTimer = 0;
 		m_currentGameMode = GameMode::Showing;
-		m_flashTime = 20; // test
+		m_flashTime = 30; 
 
 	}
 	if (m_yellowButtonPressed)
 	{
 		randomiseNotes();
-		m_currentCount = 32; // temp
+		m_currentCount = 1; 
 		m_currentNote = 0;
 		m_difficultyLevel = 32;
 		m_modeChangeTimer = 0;
 		m_currentGameMode = GameMode::Showing;
-		m_flashTime = 15; // temp
+		m_flashTime = 30; 
 	}
 	
 }
@@ -265,11 +265,13 @@ void Game::render()
 	m_window.draw(m_buttonYellow);
 	m_window.draw(m_buttonBlue);
 	m_window.draw(m_titleText);
-
-	m_window.draw(m_instructionsTextBlue);
-	m_window.draw(m_instructionsTextGreen);
-	m_window.draw(m_instructionsTextRed);
-	m_window.draw(m_instructionsTextYellow);
+	if (m_currentGameMode == GameMode::Starting)
+	{
+		m_window.draw(m_instructionsTextBlue);
+		m_window.draw(m_instructionsTextGreen);
+		m_window.draw(m_instructionsTextRed);
+		m_window.draw(m_instructionsTextYellow);
+	}
 	m_window.draw(m_statusText);
 
 	m_window.display();
