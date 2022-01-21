@@ -28,6 +28,7 @@ Game::Game() :
 {
 	setupFontAndText(); // load font 
 	setupButtons();
+	resetButtons();
 }
 
 /// <summary>
@@ -83,6 +84,7 @@ void Game::processEvents()
 		{
 			processKeys(newEvent);
 		}
+		processGameEvents(newEvent);
 	}
 }
 
@@ -126,6 +128,8 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		m_window.close();
 	}
+	// reset the booleans after update before next process events call
+	resetButtons();
 }
 
 /// <summary>
@@ -209,3 +213,65 @@ void Game::setupFontAndText()
 	m_statusText.setString(""); // no status on menu screen
 }
 
+/// <summary>
+/// @brief reset buttons to false.
+/// 
+/// run this before processing events again after an update to deal with the button presses
+/// </summary>
+void Game::resetButtons()
+{
+	m_blueButtonPressed = false;
+	m_redButtonPressed = false;
+	m_yellowButtonPressed = false;
+	m_greenButtonPressed = false;
+}
+/// <summary>
+/// @brief detect buttons clicks.
+/// 
+/// detect the mouse button release event (for either button)
+/// then check x co-ordinate for column and y corrdinate for row
+/// if it's inside a button set the corresponding boolean 
+/// </summary>
+/// <param name="event">system event</param>
+void Game::processGameEvents(sf::Event& t_event)
+{
+	const int COL_1_LEFT = 350;
+	const int COL_1_RIGHT = 550;
+	const int COL_2_LEFT = 570;
+	const int COL_2_RIGHT = 770;
+	const int ROW_1_TOP = 20;
+	const int ROW_1_BOTTOM = 230;
+	const int ROW_2_TOP = 250;
+	const int ROW_2_BOTTOM = 450;
+
+	// check if the event is a a mouse button release
+	if (sf::Event::MouseButtonReleased == t_event.type)
+	{
+		//check if its on the first col
+		if (t_event.mouseButton.x > COL_1_LEFT && t_event.mouseButton.x < COL_1_RIGHT)
+		{
+			//check which row
+			if (t_event.mouseButton.y > ROW_1_TOP && t_event.mouseButton.y < ROW_1_BOTTOM)
+			{
+				m_greenButtonPressed = true;
+			}
+			if (t_event.mouseButton.y > ROW_2_TOP && t_event.mouseButton.y < ROW_2_BOTTOM)
+			{
+				m_yellowButtonPressed = true;
+			}
+		}
+		// check if its on the scecond col
+		if (t_event.mouseButton.x > COL_2_LEFT && t_event.mouseButton.x < COL_2_RIGHT)
+		{
+			//check which row
+			if (t_event.mouseButton.y > ROW_1_TOP && t_event.mouseButton.y < ROW_1_BOTTOM)
+			{
+				m_redButtonPressed = true;
+			}
+			if (t_event.mouseButton.y > ROW_2_TOP && t_event.mouseButton.y < ROW_2_BOTTOM)
+			{
+				m_blueButtonPressed = true;
+			}
+		}
+	}
+}

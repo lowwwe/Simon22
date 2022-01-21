@@ -46,6 +46,8 @@ private:
 	void render();
 	void setupButtons();
 	void setupFontAndText();
+	void resetButtons();
+	void processGameEvents(sf::Event& t_event);
 
 
 	sf::RenderWindow m_window; // main SFML window
@@ -70,6 +72,15 @@ private:
 	// current mode the game is in
 	GameMode m_currentGameMode;
 	bool m_exitGame; // control exiting game
+
+	// red buttone pressed
+	bool m_redButtonPressed;
+	// blue buttone pressed
+	bool m_blueButtonPressed;
+	// yellow buttone pressed
+	bool m_yellowButtonPressed;
+	// green buttone pressed
+	bool m_greenButtonPressed;
 
 };
 
